@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: first-api
+  boot:
+    admin:
+      client:
+        url: http://localhost:1111  # URL to connect to Spring Boot Admin server
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"  # Expose all management endpoints over the web
+
+
+

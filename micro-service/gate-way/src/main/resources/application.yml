@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: CLOUD-API-GATEWAY
+  main:
+    web-application-type: reactive
+  cloud:
+    compatibility-verifier:
+      enabled: false
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: first-api
+          uri: lb://first-api
+          predicates:
+            - Path=/first-api/**
+        - id: second-api
+          uri: lb://second-api
+          predicates:
+            - Path=/second-api/**
+
+server:
+  port: 3333
+

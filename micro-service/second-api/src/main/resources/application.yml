@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: second-api
+  boot:
+    admin:
+      client:
+        url: http://localhost:1111
+  cloud:
+    compatibility-verifier:
+      enabled: false
+server:
+  port: 8082
