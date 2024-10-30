@@ -30,6 +30,7 @@
 
 
 ****** To overcome the problems of Monolithic, Microservices architecture came into market******
+=================================================================================================
 
 -> Microservices is not a programming language
 
@@ -38,12 +39,13 @@
 -> Microservices is not an API
 
 ######  Microservices is an architectural design pattern #####
+==============================================================
 
 -> Microservices suggesting to develop application functionalities with loosely coupling
 
 -> In Microservices architecture we don't develop all the functionalities in single project. We will divide project functionalities into several REST APIs.
 
-*********************Note: One REST API is called as one Microservice************************
+****Note: One REST API is called as one Microservice*****
 
 -> Microservices architecture based project means collection of REST APIs.
 
@@ -51,7 +53,7 @@
 
 
 # Advantages
-
+===========
 
 1) Loosely Coupling
 
@@ -84,97 +86,88 @@
 
 # Microservices Architecture
 
+We don't have any fixed architecture for microservices. Instead, teams are customizing their microservices architecture according to project requirements. Most projects will typically use the following components in their microservices architecture:
 
--> We don't have any fixed architecture for Microservices
+1. **Service Registry (Eureka Server)**
+2. **Services (REST APIs)**
+3. **Interservice Communication (Feign Client)**
+4. **API Gateway**
+5. **Admin Server**
+6. **Zipkin**
 
--> People are customizing microservices architecture according to their Project requirement
+---
 
--> Most of the projects will use below components in Microservices Architecture
+## Service Registry
 
+- The **Service Registry** acts as a database of services available in the project.
+- It provides details of all the services that are registered with the Service Registry.
+- We can identify how many services are available in the project.
+- We can identify how many instances are available for each service.
+- We can use **Eureka Server** as the service registry, which is provided by the **Spring Cloud Netflix** library.
 
-1) Service Registry (Eureka Server)
+---
 
-2) Services (REST APIs)
+## Backend Services
 
-3) Interservice Communication (FeginClient)
+- **Services** refer to REST APIs / Microservices that contain backend business logic.
+- Some services will interact with a database.
+- Some services will interact with third-party REST APIs (external communication).
+- Some services will interact with other services within the project (inter-service communication).
+- For inter-service communication, we will use **Feign Client**.
+- To distribute the load, we can run one service with multiple instances (Load Balancing).
 
-4) API Gateway
+> **Note**: We will register every service with the Service Registry.
 
-5) Admin Server
+---
 
-6) Zipkin
+## API Gateway
 
-# Service Registry
+- The **API Gateway** is used to manage the backend APIs of the project.
+- It acts as a mediator between end users and backend APIs.
+- The API Gateway can contain filter logic to handle request processing (e.g., Authentication).
+- It will also contain routing logic to determine which request should go to which REST API.
+- The API Gateway will be registered with the Service Registry.
+- We can use **Spring Cloud Gateway** as the API Gateway.
 
--> Service Registry acts as DB of services available in the project
--> It provides the details of all the services which are registered with Service Registry
--> We can identify how many services available in the project
--> We can identify how many instances available for each service
--> We can use "Eureka Server" as service registry
--> Eureka Server provided by "Spring Cloud Netflix" library
+---
 
+## Admin Server
 
+- The **Admin Server** is used to manage all backend API actuator endpoints in one place.
+- Our backend APIs will be registered with the Admin Server.
+- It will provide a user interface to monitor API actuator endpoints.
 
-# Backend Services
+---
 
--> Services means REST APIs / Microservices
--> Services contains backend business logic
--> In the project, some services will interact with DB
--> In the project, some services will interact with third party REST API ( external communication )
--> In the project, some services will interact with another services with in the project
-   ( inter-service communication )
--> For inter-service communication we will use feign-client
--> To distribute the load, we can run one service with Multiple Instances (Load Balancing)
+## Zipkin Server
 
-Note: We will register every service with Service Registry
-
-
-# API Gateway
-
--> API Gateway is used to manage our backend apis of the project
--> API Gateway acts as mediator between end users and backend apis
--> API Gateway can contain filter logic to decide request processing (Authentication)
--> API Gateway will contain Routing logic (which request should go to which REST API)
--> API Gateway also will be registered with Service Registry
--> Spring Cloud Gateway we can use as API Gateway
-
-
-# Admin Server
-
-
--> Admin Server is used to manage all backend apis actuator endpoints at one place
--> Our backend apis will be registered with Admin Server
--> Admin Server will provide User interface to monitor apis actuator endpoints
-
-# Zipin Server
-
-
--> Zipkin Server is used for Distributed Tracing
--> Using this Zipkin, we can monitor which API is taking more time to process our request.
-
+- The **Zipkin Server** is used for distributed tracing.
+- Using Zipkin, we can monitor which API is taking more time to process our requests.
 
 
 # Mini Project Implementation using Microservices Architecture
 
+## STOCK-PRICE-API
+This service will maintain companies' stock price details in a database table.
 
-STOCK-PRICE-API : It will maintain companies stock price details in db table
+- **Input**: Company Name
+- **Output**: Company Stock Price Value
 
--> Input : Company Name
--> Output : Company Stock Price Value
+### Sample Data
+- TCS - 3000
+- HCL - 1500
+- AXIS - 1200
 
-# Sample Data
+---
 
-TCS-3000
-HCL-1500
-AXIS-1200
+## STOCK-PRICE-CALC-API
+This service is used to calculate the total stocks cost based on the company name and quantity.
 
+- **Input**: Company Name & Quantity
+- **Output**: Total Stocks Cost
 
-STOCK-PRICE-CALC-API : It is used to calculate total stocks cost based on company name and quantity
+> **Note**: To calculate the total stocks cost, the `STOCK-PRICE-CALC-API` should get the company stock price from the `STOCK-PRICE-API` (INTERSERVICE COMMUNICATION).
 
--> Input : Company Name & Quantity
--> Output : Total Stocks Cost
-
-Note: To calculate total stocks cost, STOCK-PRICE-CALC-API should get company stock price from STOCK-PRICE-API (INTER SERVICE COMMUNICATION)
 
 
 # Steps to develop Service Registry Application (Eureka Server)
